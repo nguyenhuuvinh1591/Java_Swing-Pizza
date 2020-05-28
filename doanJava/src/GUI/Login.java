@@ -7,6 +7,7 @@ package GUI;
 
 import BUS.LoginBUS;
 import DAO.Connect;
+import javax.swing.BoxLayout;
 import DTO.LoginDTO;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
