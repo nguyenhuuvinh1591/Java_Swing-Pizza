@@ -5,47 +5,52 @@
  */
 package GUI;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import BUS.*;
+import DTO.*;
+import DAO.*;
+import java.awt.*;
+import static java.awt.Font.BOLD;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author nguyen thanh sang
  */
 public class HomeUser extends JFrame implements MouseListener, ActionListener {
-    JPanel menuPanel,headerPanel,contentPanel ;
-    //JLabel lbl1;
+    JPanel menuPanel,headerPanel,contentPanel;
+    JTable productTable; 
     JButton menuButton[];
-    HomeUser()
+    DefaultTableModel model = new DefaultTableModel();
+    Vector header;
+    JScrollPane scrollPanel;  
+    ProductsDTO Products = new ProductsDTO();
+    public HomeUser()
     {
         init();
+        SanPhamBUS bus = new SanPhamBUS();
+        if (SanPhamBUS.Arr_products.size() == 0) {
+            try {
+                bus.docSanPham();
+            } catch (Exception ex) {
+                Logger.getLogger(HomeUser.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        Add_header();
+        for (ProductsDTO products : SanPhamBUS.Arr_products) {
+            Add_row(products);
+        }
+        productTable.setModel(model);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
@@ -56,8 +61,6 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener {
         
         menuPanel=CreateJPanel_Menu();
         menuPanel.setPreferredSize(new Dimension(200, 1110));
-        JPanel menuPanelIcon = CreateJPanel_Icon();
-        menuPanel.add(menuPanelIcon);
         
         headerPanel= CreateJPanel_Header();
         headerPanel.setPreferredSize(new Dimension(0,100));
@@ -74,12 +77,16 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener {
     public JPanel CreateJPanel_Menu (){
         JPanel pMenu = new JPanel();
         pMenu.setLayout(null);
+        pMenu.setBackground(Color.BLACK);
+        JLabel iconHeader = CreateJLable_Icon(10, 20, 180, 200, "/Image/sv.jpg");
+        pMenu.add(iconHeader);
+        
         Border menuTitleBoder = BorderFactory.createTitledBorder("Menu");
         pMenu.setBorder(menuTitleBoder);
         menuButton=new JButton[4];
-        String[] arrMenu = {"Sản Phẩm", "Tài Khoản", "Đăng Xuất"} ;     
+        String[] arrMenu = {"Trang Chủ","Sản Phẩm", "Tài Khoản", "Đăng Xuất"} ;     
 
-        int toaDoXMenuButton=5,toaDoYMenuButton=200;
+        int toaDoXMenuButton=5,toaDoYMenuButton=230;
         for(int i=0;i<arrMenu.length; i++)
         {
             menuButton [i] = new JButton(arrMenu[i]);
@@ -87,22 +94,26 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener {
             menuButton[i].setFont(new Font("Arial", Font.PLAIN, 20));
             menuButton[i].setActionCommand("button"+i);
             menuButton[i].addActionListener(this);
+            menuButton[i].setBackground(Color.GREEN);
             pMenu.add(menuButton[i]);
             toaDoYMenuButton += 50;
         }
         return pMenu;
     }
-    
-    public JPanel CreateJPanel_Icon(){
-        JPanel pIconMenu = new JPanel();
-        pIconMenu.setLayout(null);
-        return pIconMenu;
+    //create ICON 
+    public JLabel CreateJLable_Icon(int x , int y , int w , int h , String imgpath){
+        Icon icon  = new ImageIcon( getClass().getResource(imgpath) );
+        JLabel iconlable = new JLabel(icon);
+        iconlable.setBounds(x, y, w,h);
+        return iconlable;
     }
     
     public JPanel CreateJPanel_Header (){
         JPanel pHeader = new JPanel();
         pHeader.setLayout(null);
-
+        JLabel iconHeader = CreateJLable_Icon(400, -50, 150, 200,  "/Image/PizzaLoGoHome.PNG");
+        pHeader.add(iconHeader);
+        
         JLabel nameHeaderLable = new JLabel("Pizza Hups");
         nameHeaderLable.setBounds(520, 25, 400, 50);
         nameHeaderLable.setFont(new Font("Arial", Font.BOLD, 28));
@@ -111,64 +122,108 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener {
     }
     
     public JPanel CreateJPanel_Content (){
-        JPanel sanPhamPanel = new JPanel();
-        return sanPhamPanel;
+        JPanel trangChuPanel = new JPanel();
+        trangChuPanel.setBackground(Color.DARK_GRAY);
+        this.add(trangChuPanel);
+        this.setVisible(true);
+        return trangChuPanel;
     }
     
-    public JPanel CreateJPanel_SanPham () throws Exception{
+   
+    
+    public JPanel CreateJPanel_SanphamTable() {
         JPanel sanPhamPanel = new JPanel();
-        sanPhamPanel.setBackground(Color.red);
         sanPhamPanel.setLayout(null);
-        final String url="jdbc:mysql://localhost:3306/test";
-        final String user="root";
-        final String password="";
-        Connection Conn = null;
-        PreparedStatement ps;   
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Conn = DriverManager.getConnection(url, user, password);
+        sanPhamPanel.setBackground(Color.orange);
+        header = new Vector();
+        header.add("Mã sản phẩm");
+        header.add("Tên sản phẩm");
+        header.add("Đơn giá");
+        header.add("Loại Sản Phẩm");
+
+        if (model.getRowCount() == 0) {
+            model = new DefaultTableModel(header, 0);
         }
-        catch (Exception ex) {
-           System.out.println(ex.getMessage());
-        }
+        productTable = new JTable(null, header);
+
+        productTable.setFont(new Font("Arial", 0, 15));
+        productTable.setModel(model);//add model len table
+        productTable.getTableHeader().setFont(new Font("Arial", BOLD, 18)); //set font cho vector header
+        productTable.getTableHeader().setForeground(Color.black); //set màu chữ cho header
+        productTable.getTableHeader().setPreferredSize(new Dimension(30, 50));//set độ dài độ rộng của header
+        productTable.getTableHeader().setBackground(Color.pink);//set background cho header
+
+        scrollPanel = new JScrollPane(productTable);
+        scrollPanel.setBounds(5, 100, 700, 515);
+        // tblQLS.getTableHeader().setBorder(BorderFactory.createLineBorder(null, 0, true));
+        productTable.setPreferredSize(new Dimension(500,500));
+         scrollPanel.setPreferredSize(new Dimension(500,500));
+
+        sanPhamPanel.add(scrollPanel); // add table vào scrollPanel
+        productTable.setFillsViewportHeight(true);//hiển thị table
         
-        JButton add = new JButton("Add New Product");
-	JButton change = new JButton("Edit Selected Product");
-	JButton delete = new JButton("Delete a product");     
-	JTextField search = new JTextField();
-	JButton find = new JButton("Search");
+        //button
+        JButton add = new JButton("Add");
+	JButton change = new JButton("Edit");
+	JButton delete = new JButton("Delete");     
+	JTextField searchtxt = new JTextField();
+	JButton find = new JButton("seach");
         
-	add.setBounds(250, 550, 180, 50);
-	change.setBounds(450, 550, 180, 50);
-	delete.setBounds(650, 550, 180, 50);
-	search.setBounds(550, 20, 400, 30);
-	find.setBounds(950,20,100,30);
+	add.setBounds(720, 550, 100, 50);
+	change.setBounds(830, 550, 100, 50);
+	delete.setBounds(940, 550, 100, 50);
+	searchtxt.setBounds(300, 60, 300, 30);
+	find.setBounds(600,60,100,30);
+        
 	add.setBackground(Color.red);
 	add.setForeground(Color.white);
 	change.setBackground(Color.BLUE);
 	change.setForeground(Color.white);
 	delete.setBackground(Color.green);
 	delete.setForeground(Color.white);
+        
 	sanPhamPanel.setBackground(Color.CYAN);
 	sanPhamPanel.add(add);
 	sanPhamPanel.add(change);
 	sanPhamPanel.add(delete);
-	sanPhamPanel.add(search);
+	sanPhamPanel.add(searchtxt);
 	sanPhamPanel.add(find);
         
-	String[] header = {"id","name","quantity","type"};
-	String[][] data= {{"1","tomato","100","italy"},{"2","beef","150","paris"}};
+        add.setActionCommand("add");
+        change.setActionCommand("change");
+        delete.setActionCommand("delete");
+        find.setActionCommand("find");
         
-	JTable table=new JTable(data,header);
+        add.addActionListener(this);
+        change.addActionListener(this);
+        delete.addActionListener(this);
+        find.addActionListener(this);
+        
         this.add(sanPhamPanel);
-        JScrollPane scroll = new JScrollPane();
-        sanPhamPanel.add(scroll);
-        table.setRowHeight(30);
-        scroll.setBounds(10, 80, 1040, 450);
-   
-        
         this.setVisible(true);
         return sanPhamPanel;
+
+    }
+
+    private void Add_header() {
+        Vector header = new Vector();
+        header.add("Mã sản phẩm");
+        header.add("Tên sản phẩm");
+        header.add("Đơn giá");
+        header.add("Loại Sản Phẩm");
+        if (model.getRowCount() == 0) {
+            model = new DefaultTableModel(header, 0);
+        }
+    }
+
+    private void Add_row(ProductsDTO products) {
+        Vector row = new Vector();
+        row.add(products.getID_Product());
+        row.add(products.getName());
+        row.add(products.getPice());
+        row.add(products.getCategory());     
+        model.addRow(row);
+//        productTable.setModel(model);
     }
     
     public JPanel CreateJPanel_GioHang (){
@@ -186,6 +241,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener {
         this.setVisible(true);
         return taiKhoanPanel;
     }
+    
 
 
     @Override
@@ -222,33 +278,50 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         
             if("button0".equals(e.getActionCommand()))
-            {
-                try {     
-                    JPanel sanPhamPanel =CreateJPanel_SanPham();
-                } catch (Exception ex) {
-                    Logger.getLogger(HomeUser.class.getName()).log(Level.SEVERE, null, ex);
-                }
-               
+            {    
+                 JPanel trangChuPanel = CreateJPanel_Content();
             }
             else if("button1".equals(e.getActionCommand()))
-            {
-                JPanel gioHangPanel =CreateJPanel_GioHang();
+            {   
+                    JPanel sanPhamPanel =CreateJPanel_SanphamTable();
                
             }
            else if("button2".equals(e.getActionCommand()))
             {
+                JPanel gioHangPanel =CreateJPanel_GioHang();      
+            }
+            else if("button3".equals(e.getActionCommand()))
+            {
                 JPanel taiKhoanPanel =CreateJPanel_TaiKhoan();
+            }
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            
+            if("add".equals(e.getActionCommand()))
+            {
+                JOptionPane.showMessageDialog(this, "THEM THANH CONG");
                
             }
-            /*else if("button3".equals(e.getActionCommand()))
+            if("delete".equals(e.getActionCommand()))
             {
-                System.exit(0);
-            }*/
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
+                int input = JOptionPane.showConfirmDialog(this, "Ban Co Chac Muon Xoa?");
+                if(input == 0){
+                    JOptionPane.showMessageDialog(rootPane, "xoa Thanh Cong");
+                }
+                if(input == 1){
+                    JOptionPane.showMessageDialog(rootPane, "Bạn chọn No");
+                }
+                if(input == 2){
+                    JOptionPane.showMessageDialog(rootPane, "Thoát ");
+                }  
+            }
+            if("change".equals(e.getActionCommand()))
+            {
+                JOptionPane.showMessageDialog(this, "Sua Thanh Cong");
+               
+            }
+            
     }
-        
-    public static void main(String[] args) {
-        HomeUser bd=new HomeUser();
+        public static void main(String[] args) {
+        HomeUser bd =new HomeUser();
     }
 }
