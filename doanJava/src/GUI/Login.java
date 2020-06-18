@@ -5,14 +5,15 @@
  */
 package GUI;
 
+import GUI.*;
 import BUS.LoginBUS;
 import DAO.Connect;
-import javax.swing.BoxLayout;
 import DTO.LoginDTO;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -24,10 +25,16 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
+    String UserText, PassText;
+    public static String idhienhanh;
+    public static int type = 0;
+
+    public static ArrayList<LoginDTO> Arr_Thongtin = new ArrayList<>();
+
     /**
      * Creates new form Login
      */
-    
+
     public Login() {
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,8 +42,9 @@ public class Login extends javax.swing.JFrame {
         setVisible(true);
     }
     public static LoginDTO login = null;
-    public static Statement st =null ;
+    public static Statement st = null;
     public static ResultSet rs = null;
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,22 +54,22 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jPasswordField1 = new javax.swing.JPasswordField();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 153, 153));
 
-        jLabel1.setText("Tài khoản:");
-
-        jLabel2.setText("Mật khẩu:");
+        jButton3.setText("Khách");
 
         jButton1.setText("Đăng nhập");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -75,6 +83,17 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Thoát");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Mật khẩu:");
+
+        jLabel1.setText("Tài khoản:");
+
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPasswordField1ActionPerformed(evt);
@@ -86,20 +105,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Tình trạng kết nối");
-
-        jButton2.setText("Thoát");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setText("Chào mừng bạn đã đến Pizza Huts");
-
-        jButton3.setText("Khách");
-
         jCheckBox1.setText("Hiện mật khẩu");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,64 +112,82 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setText("Chào mừng bạn đã đến Pizza Huts");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jCheckBox1)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addGap(25, 25, 25)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(27, 27, 27)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jButton2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 17, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton3)
+                    .addComponent(jButton2))
+                .addContainerGap())
+        );
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/pizzaicon.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(32, 32, 32)
-                        .addComponent(jButton1)
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3))
-                .addContainerGap(31, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                    .addComponent(jPasswordField1))
-                .addGap(45, 45, 45))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jCheckBox1)
-                        .addGap(57, 57, 57))))
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(67, 67, 67)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
-                .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(27, 27, 27))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -172,99 +195,118 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         LoginBUS bus = new LoginBUS();
-        if(LoginBUS.Arr_login.size() == 0){
+        int i = 0;
+        if (LoginBUS.Arr_login.size() == 0) {
             try {
                 bus.docdangnhap();
             } catch (Exception e) {
             }
         }
-        if (this.jTextField1.getText().equals("") || String.valueOf(this.jPasswordField1.getPassword()).equals("")){
-            JOptionPane.showMessageDialog(this, "Bạn chưa nhập thông tin tài khoản hoặc mật khẩu","Thông báo",1);
-        }
-        else{
-             
+        if (this.jTextField1.getText().equals("") || String.valueOf(this.jPasswordField1.getPassword()).equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập thông tin tài khoản hoặc mật khẩu", "Thông báo", 1);
+        } else {
             try {
-                for(LoginDTO login : LoginBUS.Arr_login){
-                    String UserText = jTextField1.getText();
-                    String PassText = String.valueOf(jPasswordField1.getPassword());
-                    if(UserText.equals(login.username)&&PassText.equals(login.password)){
-                    //Dang nhap thanh cong
-                    JOptionPane.showMessageDialog(null,"Bạn đã đăng nhập thành công","Thông báo",1);
-                    dispose();
-                    new HomeUser();
-                    }
-                    else{
-                    //Dang nhap that bai
-                    JOptionPane.showMessageDialog(null,"Tài khoản hoặc mật khẩu không chính xác","Thông báo",1);
-                    break;
+                for (LoginDTO login : LoginBUS.Arr_login) {
+                    UserText = jTextField1.getText();
+                    PassText = String.valueOf(jPasswordField1.getPassword());
+                    if (UserText.equals(login.username) && PassText.equals(login.password)) {
+//                        if (login.getType() == 1)
+                        if (login.getId().equals("ADMIN")) {
+                            JOptionPane.showMessageDialog(null, "Bạn đã đăng nhập bằng tài khoản admin", "Thông báo", 1);
+                            idhienhanh = login.getId();
+                            type = login.getType();
+                            //type = Arr_Thongtin.get(login.getType());
+                            dispose();
+                            new HomeUser();
+                            break;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Bạn đã đăng nhập bằng tài khoản nhân viên", "Thông báo", 1);
+                            idhienhanh = login.getId();
+                            System.out.println(idhienhanh);
+                            type = login.getType();
+                            dispose();
+                            new HomeUser();
+                            break;
+                        }
+                    } else {
+                        i++;
+                        if (i == LoginBUS.Arr_login.size()) {
+                            JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không chính xác, vui lòng nhập lại!", "Thông báo", 1);
+                        }
+
                     }
                 }
-                
-               
             } catch (Exception ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        JOptionPane.showConfirmDialog(null, "Bạn có muốn thoát chương trình không?","Exit", JOptionPane.OK_CANCEL_OPTION);
+        JOptionPane.showConfirmDialog(null, "Bạn có muốn thoát chương trình không?", "Exit", JOptionPane.OK_CANCEL_OPTION);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        if (jCheckBox1.isSelected()){
-            jPasswordField1.setEchoChar((char)0);
-        }
-        else{
+        if (jCheckBox1.isSelected()) {
+            jPasswordField1.setEchoChar((char) 0);
+        } else {
             jPasswordField1.setEchoChar('*');
-        }    
+        }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
-        
+
     }//GEN-LAST:event_jButton1KeyPressed
 
     private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_ENTER){
             LoginBUS bus = new LoginBUS();
-        if(LoginBUS.Arr_login.size() == 0){
+        int i = 0;
+        if (LoginBUS.Arr_login.size() == 0) {
             try {
                 bus.docdangnhap();
             } catch (Exception e) {
             }
         }
-        if (this.jTextField1.getText().equals("") || String.valueOf(this.jPasswordField1.getPassword()).equals("")){
-            JOptionPane.showMessageDialog(this, "Bạn chưa nhập thông tin tài khoản hoặc mật khẩu","Thông báo",1);
-        }
-        else{
-             
+        if (this.jTextField1.getText().equals("") || String.valueOf(this.jPasswordField1.getPassword()).equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập thông tin tài khoản hoặc mật khẩu", "Thông báo", 1);
+        } else {
             try {
-                for(LoginDTO login : LoginBUS.Arr_login){
-                    String UserText = jTextField1.getText();
-                    String PassText = String.valueOf(jPasswordField1.getPassword());
-                    if(UserText.equals(login.username)&&PassText.equals(login.password)){
-                    //Dang nhap thanh cong
-                    JOptionPane.showMessageDialog(null,"Bạn đã đăng nhập thành công","Thông báo",1);
-                    dispose();
-                    new HomeUser();
-                    }
-                    else{
-                    //Dang nhap that bai
-                    JOptionPane.showMessageDialog(null,"Tài khoản hoặc mật khẩu không chính xác","Thông báo",1);
-                    break;
+                for (LoginDTO login : LoginBUS.Arr_login) {
+                    UserText = jTextField1.getText();
+                    PassText = String.valueOf(jPasswordField1.getPassword());
+                    if (UserText.equals(login.username) && PassText.equals(login.password)) {
+//                        if (login.getType() == 1)
+                        if (login.getId().equals("ADMIN")) {
+                            JOptionPane.showMessageDialog(null, "Bạn đã đăng nhập bằng tài khoản admin", "Thông báo", 1);
+                            idhienhanh = login.getId();
+                            type = login.getType();
+                            dispose();
+                            new HomeUser();
+                            break;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Bạn đã đăng nhập bằng tài khoản nhân viên", "Thông báo", 1);
+                            idhienhanh = login.getId();
+                            System.out.println(idhienhanh);
+                            type = login.getType();
+                            dispose();
+                            new HomeUser();
+                            break;
+                        }
+                    } else {
+                        i++;
+                        if (i == LoginBUS.Arr_login.size()) {
+                            JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không chính xác, vui lòng nhập lại!", "Thông báo", 1);
+                        }
+
                     }
                 }
-                
-               
             } catch (Exception ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
         }
- 
     }//GEN-LAST:event_jPasswordField1KeyPressed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
@@ -315,6 +357,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables

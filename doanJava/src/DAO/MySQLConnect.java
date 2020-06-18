@@ -13,13 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-/**
- * P1:thiet ke 1 connection :
- *  thiet lap cac tham so ket noi
- *  Mo ket noi 
- *  DOng ket noi
- * P2:(hay hon ) . co them ham thuc thi cau truy van
- */
+
 public class MySQLConnect {
     String Host="";
     String UserName="";
@@ -30,7 +24,9 @@ public class MySQLConnect {
     Statement st = null;
     ResultSet rs = null;
     
-
+    public MySQLConnect (){
+  
+    }
     
     public MySQLConnect (String Host,String UserName,String Password,String DataBase ){
         this.DataBase = DataBase;
@@ -85,6 +81,16 @@ public class MySQLConnect {
         }
         return this.rs;
     }
+    //updata
+    public int executeUpdate(String qry) throws Exception{
+        int res =0;
+        try{
+            res = this.getStatement().executeUpdate(qry);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return res;
+    }
     //Ham dong ket noi
     public void Close() throws SQLException{
         //neu result ch dong, dong result
@@ -103,5 +109,11 @@ public class MySQLConnect {
             this.conn= null;
         }
     }
-    
+    public int CountRow(ResultSet rs) throws SQLException{
+        int count=0;
+        while(rs.next()){
+            count++;
+        }
+        return count;
+    }
 }

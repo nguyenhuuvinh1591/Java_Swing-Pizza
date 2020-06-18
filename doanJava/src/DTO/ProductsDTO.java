@@ -13,16 +13,18 @@ public class ProductsDTO {
     public String ID_Product;
     public String Name;
     public Double Pice;
+    public int amount;
     public String Category;
     public String img_path;
 
     public ProductsDTO() {
     }
 
-    public ProductsDTO(String ID_Product, String Name, Double Pice, String Category, String img_path) {
+    public ProductsDTO(String ID_Product, String Name, Double Pice, int amount, String Category, String img_path) {
         this.ID_Product = ID_Product;
         this.Name = Name;
         this.Pice = Pice;
+        this.amount = amount;
         this.Category = Category;
         this.img_path = img_path;
     }
@@ -51,6 +53,14 @@ public class ProductsDTO {
         this.Pice = Pice;
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
     public String getCategory() {
         return Category;
     }
@@ -66,6 +76,8 @@ public class ProductsDTO {
     public void setImg_path(String img_path) {
         this.img_path = img_path;
     }
+    
+    
     
 }
 
