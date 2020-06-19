@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class XemThemKhachHangGUI extends javax.swing.JFrame {
 
     public static ArrayList<KhachHangDTO> Arr_chonkhachhang;
+    DefaultTableModel model;
     public XemThemKhachHangGUI() {
         setVisible(true);
         initComponents();       
@@ -43,9 +44,9 @@ public class XemThemKhachHangGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         khachHangTable = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        timkiemTXT = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        timkiemButton = new javax.swing.JButton();
         chonButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -72,11 +73,11 @@ public class XemThemKhachHangGUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(khachHangTable);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/seach.png"))); // NOI18N
-        jButton2.setText("Tìm Kiếm");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        timkiemButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/seach.png"))); // NOI18N
+        timkiemButton.setText("Tìm Kiếm");
+        timkiemButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                timkiemButtonActionPerformed(evt);
             }
         });
 
@@ -89,9 +90,9 @@ public class XemThemKhachHangGUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(timkiemButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(timkiemTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -101,8 +102,8 @@ public class XemThemKhachHangGUI extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(13, 13, 13)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(timkiemButton)
+                    .addComponent(timkiemTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         chonButton.setText("Chọn");
@@ -174,9 +175,13 @@ public class XemThemKhachHangGUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_khachHangTableMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void timkiemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timkiemButtonActionPerformed
+        String temp = timkiemTXT.getText();
+        model.setRowCount(0);
+        for (int i =0; i < KhachHangBUS.timkiemALL(temp).size();i++) {
+            Add_row(KhachHangBUS.timkiemALL(temp).get(i));
+        }
+    }//GEN-LAST:event_timkiemButtonActionPerformed
 
     private void chonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chonButtonActionPerformed
         int i=khachHangTable.getSelectedRow();
@@ -205,7 +210,7 @@ public class XemThemKhachHangGUI extends javax.swing.JFrame {
         } catch (Exception e) {
         }
         String header[] = {"STT","Mã Khách Hàng","Tên Khách Hàng","SDT"};
-        DefaultTableModel model = new DefaultTableModel(null, header);
+         model = new DefaultTableModel(null, header);
         int temp= 1;
         for(KhachHangDTO khachhang : bus.Arr_khachhang){
             Vector table=new Vector();
@@ -217,6 +222,14 @@ public class XemThemKhachHangGUI extends javax.swing.JFrame {
             temp++;
         }
         khachHangTable.setModel(model);
+    }
+    private void Add_row(KhachHangDTO khachhang) {
+        Vector row = new Vector();
+        row.add(khachhang.getID_Khachhang());
+        row.add(khachhang.getTenKhachHang());  
+        row.add(khachhang.getSDT());  
+        model.addRow(row);
+//      productTable.setModel(model);
     }
   
     
@@ -260,13 +273,13 @@ public class XemThemKhachHangGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton chonButton;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable khachHangTable;
+    private javax.swing.JButton timkiemButton;
+    private javax.swing.JTextField timkiemTXT;
     // End of variables declaration//GEN-END:variables
 }

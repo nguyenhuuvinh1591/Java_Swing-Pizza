@@ -8,15 +8,17 @@ public class LoginDTO {
     public String username;
     public String password;
     public String id;
+    public int TrangThai;
 
     public LoginDTO() {
     }
 
-    public LoginDTO(int type, String username, String password, String id) {
+    public LoginDTO(int type, String username, String password, String id, int TrangThai) {
         this.type = type;
         this.username = username;
         this.password = password;
         this.id = id;
+        this.TrangThai = TrangThai;
     }
 
     public int getType() {
@@ -51,6 +53,13 @@ public class LoginDTO {
         this.id = id;
     }
 
+    public int getTrangThai() {
+        return TrangThai;
+    }
+
+    public void setTrangThai(int TrangThai) {
+        this.TrangThai = TrangThai;
+    }
 
     
     

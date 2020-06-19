@@ -34,6 +34,7 @@ public class AccountDAO {
                 Account.setGioitinh(rs.getString("GioiTinh"));
                 Account.setDiachi(rs.getString("DiaChi"));
                 Account.setSodienthoai(rs.getString("SDT"));
+                Account.setTrangThai(rs.getInt("TrangThai"));
                 Arr_account.add(Account);
           
         }
@@ -45,7 +46,7 @@ public class AccountDAO {
        
         return Arr_account;
         }
-        public void updateThongtin(String hoten, String ngaysinh, String gioitinh ,String sodienthoai, String id){
+        public void updateThongtin(String hoten, String ngaysinh, String gioitinh ,String sodienthoai, String id, int trangthai){
             try{           
                 MySQLConnect connect = new MySQLConnect("localhost", "root", "", "pizza");
                 AccountDTO acc = new AccountDTO();
@@ -55,7 +56,8 @@ public class AccountDAO {
                         + "SET `TenNhanVien`= \"" + hoten + "\", "
                         + "`NgaySinh` = \"" + ngaysinh + "\", "
                         + "`Gioitinh` = \"" + gioitinh + "\", "
-                        + "`SDT` = \"" + sodienthoai + "\" "
+                        + "`SDT` = \"" + sodienthoai + "\" ,"
+                        + "`TrangThai` = \"" + trangthai + "\""
                         + "WHERE `ID_Nhanvien`= \"" + id + "\" ";
                 st.executeUpdate(sql);
             }
@@ -64,7 +66,7 @@ public class AccountDAO {
             }
         }
 
-    public void updateNhanvien(String hoten, String ngaysinh, String gioitinh, String diachi, String sdt, String id) {
+    public void updateNhanvien(String hoten, String ngaysinh, String gioitinh, String diachi, String sdt, String id ,int trangthai) {
         try{           
                 MySQLConnect connect = new MySQLConnect("localhost", "root", "", "pizza");
                 AccountDTO acc = new AccountDTO();
@@ -75,7 +77,8 @@ public class AccountDAO {
                         + "`NgaySinh` = \"" + ngaysinh + "\", "
                         + "`GioiTinh` = \"" + gioitinh + "\", "
                         + "`DiaChi` = \"" + diachi + "\", "
-                        + "`SDT` = \"" + sdt + "\" "
+                        + "`SDT` = \"" + sdt + "\" ,"
+                        + "`TrangThai` = \"" + trangthai + "\""
                         + "WHERE `ID_Nhanvien`= \"" + id + "\" ";
                 st.executeUpdate(sql);
             }
@@ -84,7 +87,7 @@ public class AccountDAO {
             }
     }
 
-    public void deleteNhanvien(String hoten, String ngaysinh, String gioitinh, String diachi, String sdt, String id) {
+    public void deleteNhanvien(String hoten, String ngaysinh, String gioitinh, String diachi, String sdt, String id,int trangthai) {
         try {
                 MySQLConnect connect = new MySQLConnect("localhost", "root", "", "pizza");
                 AccountDTO acc = new AccountDTO();
@@ -97,19 +100,20 @@ public class AccountDAO {
         }
     }
 
-    public void addNhanvien(String hoten, String ngaysinh, String gioitinh, String diachi, String sdt, String id) {
+    public void addNhanvien(String hoten, String ngaysinh, String gioitinh, String diachi, String sdt, String id,int trangthai) {
         try {
                 MySQLConnect connect = new MySQLConnect("localhost", "root", "", "pizza");
                 AccountDTO acc = new AccountDTO();
                 Statement st = connect.getStatement();
                 
-                String sql = "INSERT INTO `nhanvien` (`TenNhanvien`, `NgaySinh`, `GioiTinh`, `DiaChi`,`SDT`, `ID_Nhanvien`) VALUES ("
+                String sql = "INSERT INTO `nhanvien` (`TenNhanvien`, `NgaySinh`, `GioiTinh`, `DiaChi`,`SDT`, `ID_Nhanvien`,`TrangThai`) VALUES ("
                         + "\"" + hoten + "\""
                         + ",\"" + ngaysinh + "\""
                         + ",\"" + gioitinh + "\""
                         + ",\"" + diachi + "\""
                         + ",\"" + sdt + "\""
-                        + ",\"" + id + "\")";
+                        + ",\"" + id + "\""
+                        + ",\"" + trangthai + "\")";
                 st.executeUpdate(sql);
         } catch (Exception e) {
         }

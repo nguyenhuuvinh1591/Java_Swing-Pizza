@@ -14,7 +14,6 @@ import DTO.ProductsDTO;
 import DAO.MySQLConnect;
 import DTO.AccountDTO;
 import DTO.LoginDTO;
-import DTO.navItemDTO;
 import java.awt.*;
 import static java.awt.Font.BOLD;
 import java.awt.event.ActionEvent;
@@ -43,13 +42,14 @@ import ExcelAndReport.*;
  */
 public class HomeUser extends JFrame implements MouseListener, ActionListener ,KeyListener ,ItemSelectable{
     JPanel menuPanel,headerPanel,contentPanel,sanPhamPanel, iconPanel = new JPanel(),ptaikhoan,pnhanvien;
-    JTable productTable,accountTabel,nhanvienTable;
+    JTable productTable,accountTabel,nhanvienTable,gioHangTable;
     JLabel iconPizza,menuLabel[],taikhoanLabel,matkhauLabel,idLabel,typeLabel,hotenLabel,ngaysinhLabel,idnhanvienLabel,gioitinhLabel,diachiLabel,sdtLabel;
     JTextField countTXT, seachtxt,menuTextField[],menuTextFieldADMIN[],giaTriDauTXT,giaTriCuoiTXT,tongTienTXT, taikhoan_TextField, matkhau_TextField, id_TextField,type_TextField,
     idnhanvien_TextField,hoten_TextField,ngaysinh_TextField,gioitinh_TextField,diachi_TextField,sdt_TextField;
+    static JButton  refresh;
     JButton menuButton[],find, suataikhoanButton,themtaikhoanButton,xoataikhoanButton,suataikhoan1Button,themtaikhoan1Button,xoataikhoan1Button,QLNVExelButton,QLTKExelButton;
     DefaultTableModel model = new DefaultTableModel();
-    DefaultTableModel modelGioHang = new DefaultTableModel();
+    static DefaultTableModel modelGioHang = new DefaultTableModel();
     DefaultTableModel modelTaiKhoan = new DefaultTableModel();
     DefaultTableModel modelNhanvien = new DefaultTableModel();
     Vector headerSP,headerGH,headerTK,dataTK,headerNV,dataNV;
@@ -64,12 +64,8 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
     int count=1 , check=0;
     double Tong = 0.0;
     
-    // CONSTANTS
-	/*----------------------------------------------------------*/
-	static final String FILE_SAVE_LOCATION = "C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLiCuaHangPizzaV2\\doanJava\\src\\report\\";
-	static final String FILE_NAME = "UserReport.xlsx";
-	/*----------------------------------------------------------*/
     
+
     public HomeUser() 
     {
         init();
@@ -325,7 +321,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 psanPham.add(menuButton[i]);
                 
                 menuTextFieldADMIN[i] = new JTextField();
-                menuTextFieldADMIN[i].setBounds(toaDoXMenuButton + 160, toaDoYMenuButton, 150, 30);
+                menuTextFieldADMIN[i].setBounds(toaDoXMenuButton + 160, toaDoYMenuButton, 170, 30);
                 psanPham.add(menuTextFieldADMIN[i]);
                 toaDoYMenuButton += 50;
             }
@@ -368,7 +364,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         JButton print = new JButton("In hoá đơn ");
         JButton addCount = new JButton("+");
         JButton subtractCount = new JButton("-");
-        JButton refresh = new JButton(new ImageIcon("./src/Image/refresh.png"));
+        refresh = new JButton(new ImageIcon("./src/Image/refresh.png"));
         countTXT = new JTextField();
         find = new JButton(new ImageIcon("./src/Image/seach.png"));
 
@@ -433,7 +429,8 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         subtractCount.addActionListener(this);
         find.addActionListener(this);
         refresh.addActionListener(this);
-
+       
+        
         this.setVisible(true);
         return psanPham;
 
@@ -449,41 +446,41 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
     }
 
     public JTable CreateTable_GioHang() {
-        JTable tGioHang = new JTable();
+        gioHangTable = new JTable();
         headerGH = new Vector();
         headerGH.add("Mã sản phẩm");
         headerGH.add("Tên sản phẩm");
         headerGH.add("SL");
         headerGH.add("Đơn giá(VNĐ)");
         modelGioHang = new DefaultTableModel(headerGH, 0);
-        tGioHang = new JTable(null, headerGH);
-        tGioHang.setFont(new Font("Arial", 0, 15));
-        tGioHang.setModel(model);//add model len table
-        tGioHang.getTableHeader().setFont(new Font("Arial", BOLD, 16)); //set font cho vector header
-        tGioHang.getTableHeader().setForeground(Color.black); //set màu chữ cho header
-        tGioHang.getTableHeader().setPreferredSize(new Dimension(30, 40));//set độ dài độ rộng của header
-        tGioHang.getTableHeader().setBackground(Color.RED);//set background cho header
+        gioHangTable = new JTable(null, headerGH);
+        gioHangTable.setFont(new Font("Arial", 0, 15));
+        gioHangTable.setModel(model);//add model len table
+        gioHangTable.getTableHeader().setFont(new Font("Arial", BOLD, 16)); //set font cho vector header
+        gioHangTable.getTableHeader().setForeground(Color.black); //set màu chữ cho header
+        gioHangTable.getTableHeader().setPreferredSize(new Dimension(30, 40));//set độ dài độ rộng của header
+        gioHangTable.getTableHeader().setBackground(Color.RED);//set background cho header
 
         // tblQLS.getTableHeader().setBorder(BorderFactory.createLineBorder(null, 0, true));
         //tGioHang.setPreferredSize(new Dimension(500,500));
-        tGioHang.setRowHeight(40);
-        tGioHang.setGridColor(Color.GREEN);
+        gioHangTable.setRowHeight(40);
+        gioHangTable.setGridColor(Color.GREEN);
         // scrollPanel.setPreferredSize(new Dimension(500,500));
 //        scrollPanel.setViewportView(productTable);
-        tGioHang.addMouseListener(this);
-        tGioHang.setFillsViewportHeight(true);//hiển thị table     
-        tGioHang.setShowGrid(false);
-        tGioHang.setDefaultEditor(Object.class, null);
+        gioHangTable.addMouseListener(this);
+        gioHangTable.setFillsViewportHeight(true);//hiển thị table     
+        gioHangTable.setShowGrid(false);
+        gioHangTable.setDefaultEditor(Object.class, null);
         //---------------------- canh chinh do dai cot header
-        tGioHang.getColumnModel().getColumn(0).setPreferredWidth(80);
-        tGioHang.getColumnModel().getColumn(1).setPreferredWidth(200);
-        tGioHang.getColumnModel().getColumn(2).setPreferredWidth(20);
+        gioHangTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        gioHangTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+        gioHangTable.getColumnModel().getColumn(2).setPreferredWidth(20);
         for (ProductsDTO product : Arr_GioHang) {
             Add_row_SanPham(product);
         }
-        tGioHang.setModel(modelGioHang);
-        tGioHang.updateUI();
-        return tGioHang;
+        gioHangTable.setModel(modelGioHang);
+        gioHangTable.updateUI();
+        return gioHangTable;
     }
     
     public JPanel CreatePanel_QuanLiNhanVien(){
@@ -709,8 +706,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         accountTabel.getColumnModel().getColumn(0).setPreferredWidth(80); 
         accountTabel.getColumnModel().getColumn(1).setPreferredWidth(200); 
         accountTabel.getColumnModel().getColumn(2).setPreferredWidth(70);
-        
-
+       
                 try {
                     login_bus.docdangnhap();
                     
@@ -729,17 +725,6 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 }
         
         ptaikhoan.setVisible(true);
-        accountTabel.addMouseListener(new MouseAdapter() {
-            public void mouseClicked (MouseEvent e){
-                int j = accountTabel.getSelectedRow();
-                if (j>=0){
-                    id_TextField.setText((String)accountTabel.getModel().getValueAt(j, 0));
-                    taikhoan_TextField.setText((String)accountTabel.getModel().getValueAt(j, 1));
-                    matkhau_TextField.setText((String)accountTabel.getModel().getValueAt(j, 2));
-                    type_TextField.setText((String)accountTabel.getModel().getValueAt(j, 3).toString());
-                }
-            }
-        });
         return ptaikhoan;
     }
     
@@ -834,7 +819,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         model.addRow(row);
 //      productTable.setModel(model);
     }  
-    private void Add_row_GioHang(ProductsDTO products) {
+    public static void Add_row_GioHang(ProductsDTO products) {
         Vector row = new Vector();
         row.add(products.getID_Product());
         row.add(products.getName());
@@ -966,7 +951,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
     public void mouseClicked(MouseEvent e) {
         //Product Table
         iconPanel.removeAll();
-        JButton tongTienButton = new JButton("Tổng Tiền");
+        JButton tongTienButton = new JButton("Tạm Tính");
         tongTienTXT = new JTextField();
         
         tongTienTXT.setBounds(730, 435, 340, 40);
@@ -987,6 +972,26 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             sanPhamPanel.add(iconPanel);
             sanPhamPanel.updateUI();
         }
+                //event
+        if (Login.type == 1) {
+            int j = productTable.getSelectedRow();
+            if (j>=0){
+                menuTextFieldADMIN[0].setText((String)productTable.getModel().getValueAt(j, 0));
+                menuTextFieldADMIN[1].setText((String)productTable.getModel().getValueAt(j, 1));
+                menuTextFieldADMIN[2].setText((String)productTable.getModel().getValueAt(j, 2).toString());
+                menuTextFieldADMIN[3].setText((String)productTable.getModel().getValueAt(j, 3));
+            }
+        }
+        if (Login.type == 1) {
+            int j = accountTabel.getSelectedRow();
+                if (j>=0){
+                    id_TextField.setText((String)accountTabel.getModel().getValueAt(j, 0));
+                    taikhoan_TextField.setText((String)accountTabel.getModel().getValueAt(j, 1));
+                    matkhau_TextField.setText((String)accountTabel.getModel().getValueAt(j, 2));
+                    type_TextField.setText((String)accountTabel.getModel().getValueAt(j, 3).toString());
+                }
+        }
+            
         //-----------------------------------------
         
     }
@@ -998,21 +1003,17 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        //hrow new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        System.out.println("mouseReleased");
+    
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        System.out.println("mouseEntered");
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        //sanPhamPanel.remove(iconPizza);
-        //sanPhamPanel.updateUI();
+
     }
     
     @Override
@@ -1143,30 +1144,18 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                             JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                             JOptionPane.showMessageDialog(this, "Thành công");
                         }
-//                        tempArr.add(Arr_GioHang.get(i));
-//                        for(int j = 0 ; j < Arr_GioHang.size(); j++){
-//                            if(tempArr.get(i) == Arr_GioHang.get(i)){
-//                                Arr_GioHang.get(i).setAmount(Integer.valueOf(countTXT.getText())+product.getAmount());
-//                                System.out.println("co vo");
-//                                System.out.println(tempArr.get(i).getAmount());
-//                            }
-//                            tempArr.removeAll(tempArr);
-//                                
-//                        }
                     }
                 } 
-//                tongTienTXT.updateUI();
+                tongTienTXT.requestFocus();
                 tongTienTXT.setText(String.valueOf(Tong));
+                tongTienTXT.setEditable(false);
                 count = 1;
                 countTXT.setText(String.valueOf(count));
                 System.out.println(Tong);
-                tongTienTXT.updateUI();
-
             }            
             if("find".equals(e.getActionCommand()))
             {
                 String temp = seachtxt.getText();
-                System.out.println(temp);
 //                SanPhamBUS bus = new SanPhamBUS();
 //                if (SanPhamBUS.Arr_products.size() == 0) {
 //                    try {
@@ -1188,8 +1177,10 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 modelGioHang.setRowCount(0);
                 for (int i =0; i < SanPhamBUS.Arr_products.size();i++) {
                     Add_row_SanPham(SanPhamBUS.Arr_products.get(i));
-                }       
-               
+                }
+                Arr_GioHang.removeAll(Arr_GioHang);
+                Arr_GioHang = new ArrayList<>();
+                
             }
             if("print".equals(e.getActionCommand()))
             { 
@@ -1266,7 +1257,8 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 String gioitinh = this.menuTextField[2].getText();
                 String sodienthoai = this.menuTextField[3].getText();
                 String id = Login.idhienhanh;
-                update.updateThongtin(hoten, ngaysinh, gioitinh, sodienthoai, id);
+                int trangthai=1;
+                update.updateThongtin(hoten, ngaysinh, gioitinh, sodienthoai, id,trangthai);
             }
             if ("suataikhoan".equals(e.getActionCommand())){
                 LoginDAO update = new LoginDAO();
@@ -1373,7 +1365,8 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 String diachi = this.diachi_TextField.getText();
                 String sdt = this.sdt_TextField.getText();
                 String id = this.idnhanvien_TextField.getText();
-                update.updateNhanvien(hoten,ngaysinh,gioitinh,diachi,sdt,id);
+                int trangthai = 1;
+                update.updateNhanvien(hoten,ngaysinh,gioitinh,diachi,sdt,id,trangthai);
                 JOptionPane.showMessageDialog(this,"Sửa thông tin thành công!");
                 hoten_TextField.setText(null);
                 ngaysinh_TextField.setText(null);
@@ -1408,7 +1401,8 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 String diachi = this.diachi_TextField.getText();
                 String sdt = this.sdt_TextField.getText();
                 String id = this.idnhanvien_TextField.getText();
-                update.deleteNhanvien(hoten,ngaysinh,gioitinh,diachi,sdt,id);
+                int trangthai = 1;
+                update.deleteNhanvien(hoten,ngaysinh,gioitinh,diachi,sdt,id,trangthai);
                 JOptionPane.showMessageDialog(this,"Sửa thông tin thành công!");
                 hoten_TextField.setText(null);
                 ngaysinh_TextField.setText(null);
@@ -1443,7 +1437,8 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 String diachi = this.diachi_TextField.getText();
                 String sdt = this.sdt_TextField.getText();
                 String id = this.idnhanvien_TextField.getText();
-                update.addNhanvien(hoten,ngaysinh,gioitinh,diachi,sdt,id);
+                int trangthai = 1;
+                update.addNhanvien(hoten,ngaysinh,gioitinh,diachi,sdt,id,trangthai);
                 JOptionPane.showMessageDialog(this,"Sửa thông tin thành công!");
                 hoten_TextField.setText(null);
                 ngaysinh_TextField.setText(null);

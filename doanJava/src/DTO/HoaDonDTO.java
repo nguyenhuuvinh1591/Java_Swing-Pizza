@@ -18,17 +18,19 @@ public class HoaDonDTO {
     public String ID_Giamgia;
     public double ThanhTien;
     public String Ngaylap;
+    public int TrangThai;
 
     public HoaDonDTO() {
     }
 
-    public HoaDonDTO(String ID_Hoadon, String ID_NhanVien, String ID_Khachhang, String ID_Giamgia, double ThanhTien, String Ngaylap) {
+    public HoaDonDTO(String ID_Hoadon, String ID_NhanVien, String ID_Khachhang, String ID_Giamgia, double ThanhTien, String Ngaylap, int TrangThai) {
         this.ID_Hoadon = ID_Hoadon;
         this.ID_NhanVien = ID_NhanVien;
         this.ID_Khachhang = ID_Khachhang;
         this.ID_Giamgia = ID_Giamgia;
         this.ThanhTien = ThanhTien;
         this.Ngaylap = Ngaylap;
+        this.TrangThai = TrangThai;
     }
 
     public String getID_Hoadon() {
@@ -79,6 +81,13 @@ public class HoaDonDTO {
         this.Ngaylap = Ngaylap;
     }
 
-    
-    
+    public int getTrangThai() {
+        return TrangThai;
+    }
+
+    public void setTrangThai(int TrangThai) {
+        this.TrangThai = TrangThai;
+    }
+
+       
 }

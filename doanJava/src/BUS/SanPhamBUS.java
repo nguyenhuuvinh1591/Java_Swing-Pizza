@@ -104,6 +104,15 @@ public class SanPhamBUS {
         }
         return 0;
     }
+    public boolean kt_trung_ma (String ID_SanPham , ArrayList<ProductsDTO> temp)
+    {
+        for (ProductsDTO products: temp)
+        {
+            if(products.getID_Product().equals(ID_SanPham))
+                return true;
+        }
+        return false;
+    }
     public static boolean kiemtraTenSanPham(String s) throws Exception
     {
         try

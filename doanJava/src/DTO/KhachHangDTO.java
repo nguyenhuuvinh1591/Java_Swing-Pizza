@@ -14,15 +14,17 @@ public class KhachHangDTO {
     public String TenKhachHang;
     public String SDT;
     public String Gmail;
+    public int TrangThai;
 
     public KhachHangDTO() {
     }
 
-    public KhachHangDTO(String ID_Khachhang, String TenKhachHang, String SDT, String Gmail) {
+    public KhachHangDTO(String ID_Khachhang, String TenKhachHang, String SDT, String Gmail, int TrangThai) {
         this.ID_Khachhang = ID_Khachhang;
         this.TenKhachHang = TenKhachHang;
         this.SDT = SDT;
         this.Gmail = Gmail;
+        this.TrangThai = TrangThai;
     }
 
     public String getID_Khachhang() {
@@ -56,5 +58,15 @@ public class KhachHangDTO {
     public void setGmail(String Gmail) {
         this.Gmail = Gmail;
     }
+
+    public int getTrangThai() {
+        return TrangThai;
+    }
+
+    public void setTrangThai(int TrangThai) {
+        this.TrangThai = TrangThai;
+    }
+
+    
     
 }

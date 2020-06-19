@@ -25,4 +25,17 @@ public class KhachHangBUS {
         //ddd
         
     }
+     
+     public static ArrayList<KhachHangDTO> timkiemALL(String tuKhoa){
+         ArrayList<KhachHangDTO> Arr_temp = new ArrayList<>();
+         for (int i =0; i < SanPhamBUS.Arr_products.size();i++) {
+            if(Arr_khachhang.get(i).getID_Khachhang().toLowerCase().contains(tuKhoa.toLowerCase())||
+            Arr_khachhang.get(i).getTenKhachHang().toLowerCase().contains(tuKhoa.toLowerCase())||
+            Arr_khachhang.get(i).getSDT().toLowerCase().contains(tuKhoa.toLowerCase())){  
+                Arr_temp.add(KhachHangBUS.Arr_khachhang.get(i));
+            }
+        }
+       
+         return Arr_temp;
+    }
 }

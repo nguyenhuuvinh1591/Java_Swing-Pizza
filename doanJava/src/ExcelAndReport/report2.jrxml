@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="35b51e2d-f7b6-4c93-811c-a4b729eed4db">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     hoadon.`ID_Hoadon` AS hoadon_ID_Hoadon,
+     hoadon.`ID_Nhanvien` AS hoadon_ID_Nhanvien,
+     hoadon.`ID_khachhang` AS hoadon_ID_khachhang,
+     hoadon.`ID_Giamgia` AS hoadon_ID_Giamgia,
+     hoadon.`NgayLap` AS hoadon_NgayLap,
+     hoadon.`ThanhTien` AS hoadon_ThanhTien
+FROM
+     `hoadon` hoadon]]>
+	</queryString>
+	<field name="hoadon_ID_Hoadon" class="java.lang.String"/>
+	<field name="hoadon_ID_Nhanvien" class="java.lang.String"/>
+	<field name="hoadon_ID_khachhang" class="java.lang.String"/>
+	<field name="hoadon_ID_Giamgia" class="java.lang.String"/>
+	<field name="hoadon_NgayLap" class="java.sql.Date"/>
+	<field name="hoadon_ThanhTien" class="java.lang.Double"/>
+	<variable name="hoadon_ID_Hoadon_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{hoadon_ID_Hoadon}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_ID_Hoadon_2" class="java.lang.Integer" resetType="Column" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{hoadon_ID_Hoadon}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_ID_Hoadon_3" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{hoadon_ID_Hoadon}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_ID_Nhanvien_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{hoadon_ID_Nhanvien}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_ID_Nhanvien_2" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{hoadon_ID_Nhanvien}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_ID_Giamgia_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{hoadon_ID_Giamgia}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_NgayLap_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{hoadon_NgayLap}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_ThanhTien_1" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{hoadon_ThanhTien}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_ThanhTien_2" class="java.lang.Double" resetType="Column" calculation="First">
+		<variableExpression><![CDATA[$F{hoadon_ThanhTien}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_ID_Hoadon_4" class="java.lang.Integer" resetType="Column" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{hoadon_ID_Hoadon}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_ID_Hoadon_5" class="java.lang.Integer" resetType="Column" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{hoadon_ID_Hoadon}]]></variableExpression>
+	</variable>
+	<variable name="hoadon_ThanhTien_3" class="java.lang.Double" resetType="Column" calculation="System">
+		<variableExpression><![CDATA[$F{hoadon_ThanhTien}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="115" splitType="Stretch">
+			<staticText>
+				<reportElement x="202" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="48835378-ed67-4e10-ae79-8c235b729521"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pizza Hups]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="20" width="132" height="20" uuid="714a4ef9-037a-41cc-8d9b-0aa0922658f7"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Cửa hàng:Pizza Hups
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="40" width="232" height="28" uuid="7077bfa7-8034-4c17-ac4f-20a92ad05956"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Địa chỉ:279,An Dương Vương,Q5,TP.HCM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="68" width="100" height="20" uuid="8eaccc9c-22b8-4de7-8bf4-135b6b1ccf2f"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Sdt:0912169275
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-19" y="95" width="593" height="20" uuid="f954b819-1fb6-419a-9194-bfed58417a65"/>
+				<text><![CDATA[.................................................................................................................................................................................................................................]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="146" y="21" width="276" height="39" uuid="b8f986ae-fd04-4524-8f8e-22c4032a9cbc"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HÓA ĐƠN BÁN HÀNG]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="214" y="60" width="100" height="20" uuid="45a5b2ea-b6d3-4be9-9012-a19ae3f430f4"/>
+				<textFieldExpression><![CDATA[$F{hoadon_ID_Hoadon}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="1" width="100" height="20" uuid="5e1fdf8e-fd54-4b41-974e-b8264ff9a005"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ngày lập]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="128" y="1" width="100" height="20" uuid="d831c9e8-7824-4146-acd9-dd59387e1ce4"/>
+				<textFieldExpression><![CDATA[$F{hoadon_NgayLap}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="181" splitType="Stretch">
+			<textField>
+				<reportElement x="128" y="39" width="100" height="20" uuid="76ff32c1-5868-49d0-a883-4b0a5ba433f1"/>
+				<textFieldExpression><![CDATA[$F{hoadon_ID_Nhanvien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="72" width="100" height="20" uuid="d8d701b4-a62e-4ed6-a5a4-0a2fbd060546"/>
+				<textFieldExpression><![CDATA[$F{hoadon_ID_Giamgia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="39" width="100" height="20" uuid="7cbda2ad-c2a9-49c8-bad8-1d467ec46c55"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tên Nhân viên:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="72" width="100" height="20" uuid="9146fcc5-c6b3-45f8-9919-30632aa9543f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mã giảm giá:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="39570329-fd67-4602-96a4-ea43413aa939"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tên khách hàng:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="107" width="100" height="20" uuid="490ec5e1-9fdb-494c-b4ef-772cf75edb7a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tên sản phẩm:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="144" width="100" height="20" uuid="ed3070b3-38cb-4f06-a280-5d926f1f2351"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Số lượng:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="322" y="0" width="100" height="20" uuid="38c955eb-9f28-4ac7-a66f-ec5a5e64b2a9"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Thành tiền:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="434" y="0" width="100" height="20" uuid="563a92d5-21ce-48a5-85af-a51ea519ee1c"/>
+				<textFieldExpression><![CDATA[$F{hoadon_ThanhTien}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="177" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

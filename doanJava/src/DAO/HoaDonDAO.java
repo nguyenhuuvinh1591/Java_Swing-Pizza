@@ -61,10 +61,10 @@ public class HoaDonDAO {
             qry = qry+","+"'"+hoadon.getID_Giamgia()+"'";
             qry = qry+","+"'"+hoadon.getNgaylap()+"'"; 
             qry = qry+","+"'"+hoadon.getThanhTien()+"'";
+            qry = qry+","+"'"+hoadon.getTrangThai()+"'"; 
             qry = qry+")";
             Statement st = connect.getStatement();     
             st.executeUpdate(qry);
-            System.out.println(qry);
             JOptionPane.showMessageDialog(null, "Thêm Thành Công!!");
             st.close();
        } catch (Exception ex) {

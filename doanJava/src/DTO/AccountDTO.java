@@ -14,17 +14,20 @@ public class AccountDTO {
     public String gioitinh;
     public String sodienthoai;
     public String diachi;
+    public int TrangThai;
     
     public AccountDTO(){
         
     }
-    public AccountDTO(String id_nhanvien, String hoten, String ngaysinh, String gioitinh, String sodienthoai, String diachi) {
+
+    public AccountDTO(String id_nhanvien, String hoten, String ngaysinh, String gioitinh, String sodienthoai, String diachi, int TrangThai) {
         this.id_nhanvien = id_nhanvien;
         this.hoten = hoten;
         this.ngaysinh = ngaysinh;
         this.gioitinh = gioitinh;
         this.sodienthoai = sodienthoai;
         this.diachi = diachi;
+        this.TrangThai = TrangThai;
     }
 
     public String getId_nhanvien() {
@@ -74,5 +77,14 @@ public class AccountDTO {
     public void setDiachi(String diachi) {
         this.diachi = diachi;
     }
+
+    public int getTrangThai() {
+        return TrangThai;
+    }
+
+    public void setTrangThai(int TrangThai) {
+        this.TrangThai = TrangThai;
+    }
+    
 
 }

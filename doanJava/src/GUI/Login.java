@@ -243,8 +243,10 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        JOptionPane.showConfirmDialog(null, "Bạn có muốn thoát chương trình không?", "Exit", JOptionPane.OK_CANCEL_OPTION);
+    if (JOptionPane.showConfirmDialog(null, "Bạn có muốn thoát chương trình không?", "Exit",
+        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
         dispose();
+    }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
