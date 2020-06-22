@@ -48,7 +48,6 @@ public class AccountDAO {
         }
         public void updateThongtin(String hoten, String ngaysinh, String gioitinh ,String sodienthoai, String id, int trangthai){
             try{           
-                MySQLConnect connect = new MySQLConnect("localhost", "root", "", "pizza");
                 AccountDTO acc = new AccountDTO();
                 Statement st = connect.getStatement();
 
@@ -68,7 +67,6 @@ public class AccountDAO {
 
     public void updateNhanvien(String hoten, String ngaysinh, String gioitinh, String diachi, String sdt, String id ,int trangthai) {
         try{           
-                MySQLConnect connect = new MySQLConnect("localhost", "root", "", "pizza");
                 AccountDTO acc = new AccountDTO();
                 Statement st = connect.getStatement();
 

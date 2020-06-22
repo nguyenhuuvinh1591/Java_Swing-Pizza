@@ -8,6 +8,9 @@ package BUS;
 import DAO.ProductsDAO;
 import DTO.ProductsDTO;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,7 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class SanPhamBUS {
     public  static  ArrayList<ProductsDTO> Arr_products = new ArrayList();
-    public  void docSanPham() throws Exception
+    public static void docSanPham() throws Exception
     {
         //trung chuyển data qua cái GUI
         ProductsDAO data = new ProductsDAO();
@@ -26,19 +29,19 @@ public class SanPhamBUS {
         //ddd
         
     }
-    public void themSanPham(ProductsDTO products)
+    public static void themSanPham(ProductsDTO products)
     {
         ProductsDAO data = new ProductsDAO();
         data.them(products);//gọi hàm thêm bên DAO để thêm sách vào database
         Arr_products.add(products);//
     }
-    public void suaSanPham(int i,ProductsDTO products)
+    public static void suaSanPham(int i,ProductsDTO products)
     {
         ProductsDAO data=new ProductsDAO();
         data.sua(products);
         Arr_products.set(i, products);
     }
-    public void xoaSanPham(ProductsDTO products,int i)
+    public static void xoaSanPham(ProductsDTO products,int i)
     {
         ProductsDAO productDAO =new ProductsDAO();
         String ID=Arr_products.get(i).getID_Product();
@@ -70,15 +73,26 @@ public class SanPhamBUS {
         return kq;
     }
     
-    public static ArrayList<ProductsDTO> timkiemTheoLoai(String loai)
+    public static Vector CreateComboBOX()
     {
-         ArrayList<ProductsDTO> Arr_temp = new ArrayList<>();
-         for (int i =0; i < SanPhamBUS.Arr_products.size();i++) {
+        Vector temp = new Vector();
+        for (int i =0; i < Arr_products.size();i++) {
+              temp.add(SanPhamBUS.Arr_products.get(i).getCategory());
+        }
+        HashSet<String> set = new HashSet<>(temp);
+        Vector result = new Vector<>(set);
+       
+         return result;
+    }
+    
+    public static ArrayList<ProductsDTO> timKiemTheoLoai(String loai){
+        ArrayList<ProductsDTO> Arr_temp = new ArrayList<>();
+        for (int i =0; i < Arr_products.size();i++) {
             if(Arr_products.get(i).getCategory().toLowerCase().contains(loai.toLowerCase())){
-                Arr_temp.add(SanPhamBUS.Arr_products.get(i));
+                Arr_temp.add(Arr_products.get(i));
             }
         }
-         return Arr_temp;
+        return Arr_temp;
     }
     
     //Vinh moi add
@@ -89,7 +103,7 @@ public class SanPhamBUS {
             Arr_products.get(i).getCategory().toLowerCase().contains(tuKhoa.toLowerCase())||
             Arr_products.get(i).getName().toLowerCase().contains(tuKhoa.toLowerCase())||
             Arr_products.get(i).getPice().toString().contains(tuKhoa)){
-                Arr_temp.add(SanPhamBUS.Arr_products.get(i));
+                Arr_temp.add(Arr_products.get(i));
             }
         }
          return Arr_temp;
@@ -104,7 +118,7 @@ public class SanPhamBUS {
         }
         return 0;
     }
-    public boolean kt_trung_ma (String ID_SanPham , ArrayList<ProductsDTO> temp)
+    public static boolean kt_trung_ma (String ID_SanPham , ArrayList<ProductsDTO> temp)
     {
         for (ProductsDTO products: temp)
         {

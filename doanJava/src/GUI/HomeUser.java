@@ -6,6 +6,7 @@
 package GUI;
 
 import BUS.AccountBUS;
+import BUS.Common;
 import BUS.LoginBUS;
 import BUS.SanPhamBUS;
 import DAO.AccountDAO;
@@ -48,6 +49,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
     idnhanvien_TextField,hoten_TextField,ngaysinh_TextField,gioitinh_TextField,diachi_TextField,sdt_TextField;
     static JButton  refresh;
     JButton menuButton[],find, suataikhoanButton,themtaikhoanButton,xoataikhoanButton,suataikhoan1Button,themtaikhoan1Button,xoataikhoan1Button,QLNVExelButton,QLTKExelButton;
+    JComboBox loaiSanPhamCBB;
     DefaultTableModel model = new DefaultTableModel();
     static DefaultTableModel modelGioHang = new DefaultTableModel();
     DefaultTableModel modelTaiKhoan = new DefaultTableModel();
@@ -80,7 +82,8 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         }
         Add_header("Mã sản phẩm","Tên sản phẩm","Đơn giá(VNĐ)","Loại Sản Phẩm");
         for (ProductsDTO products : SanPhamBUS.Arr_products) {
-            Add_row_SanPham(products);
+            if(products.getTrangThai() == 1)
+                Add_row_SanPham(products);
         }
         productTable.setModel(model);
     }
@@ -126,7 +129,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             pMenu.add(iconHeader);  
             menuButton=new JButton[8];
             String[] arrMenuAdmin = {"Quản Lí Sản Phẩm","Quản Lí Nhân Viên", "Quản Lí Tài Khoản","Quản Lí Khách Hàng",
-                "Quản Lí Hoá Đơn","Quản Lí Giảm Giá","Thống Kê","Thoát"} ;
+                "Quản Lí Hoá Đơn","Thống Kê","Thoát"} ;
             int toaDoXMenuButton=5,toaDoYMenuButton=230;
             for(int i=0;i<arrMenuAdmin.length; i++)
             {
@@ -309,9 +312,9 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         }
         //admin
         if (Login.type == 1) {
-            menuButton = new JButton[5];
-            menuTextFieldADMIN = new JTextField[5];
-            String[] arrMenu = {"Mã sản phẩm", "Tên sản phẩm", "Đơn giá", "Loại sản phẩm", "Số lượng"};
+            menuButton = new JButton[6];
+            menuTextFieldADMIN = new JTextField[6];
+            String[] arrMenu = {"Mã sản phẩm", "Tên sản phẩm", "Đơn giá", "Loại sản phẩm","Trạng thái", "Tên ảnh"};
             int toaDoXMenuButton = 20, toaDoYMenuButton = 400;
             for (int i = 0; i < arrMenu.length; i++) {
                 menuButton[i] = new JButton(arrMenu[i]);
@@ -323,7 +326,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 menuTextFieldADMIN[i] = new JTextField();
                 menuTextFieldADMIN[i].setBounds(toaDoXMenuButton + 160, toaDoYMenuButton, 170, 30);
                 psanPham.add(menuTextFieldADMIN[i]);
-                toaDoYMenuButton += 50;
+                toaDoYMenuButton += 40;
             }
         }
         //------------end 
@@ -332,30 +335,30 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         JButton deADMIN = new JButton("Xoá");
         JButton changeADMIN = new JButton("Sửa");
         JButton xuatexcel = new JButton("Xuất Excel");
-        JButton report = new JButton("Xuất Report");
+        JButton chonAnhADMIN = new JButton("Chọn Ảnh");
         
         addADMIN.setBounds(400, 420, 100, 50);
         deADMIN.setBounds(400, 480, 100, 50);
         changeADMIN.setBounds(400, 540, 100, 50);
         xuatexcel.setBounds(550, 430, 100, 50);
-        report.setBounds(550, 500, 100, 50);
+        chonAnhADMIN.setBounds(550, 500, 100, 50);
         
         addADMIN.setBackground(Color.GREEN);
         deADMIN.setBackground(Color.GREEN);
         changeADMIN.setBackground(Color.GREEN);
         xuatexcel.setBackground(Color.GREEN);
-        report.setBackground(Color.GREEN);
+        chonAnhADMIN.setBackground(Color.GREEN);
         
         addADMIN.setActionCommand("addADMIN");
         deADMIN.setActionCommand("xoaADMIN");
         changeADMIN.setActionCommand("suaADMIN");
         xuatexcel.setActionCommand("xuatEXCEL");
-        report.setActionCommand("report");
+        chonAnhADMIN.setActionCommand("report");
         
         addADMIN.addActionListener(this);
         deADMIN.addActionListener(this);
         changeADMIN.addActionListener(this);
-        report.addActionListener(this);
+        chonAnhADMIN.addActionListener(this);
         xuatexcel.addActionListener(this);
         //------------------------------end
         seachtxt = new JTextField();
@@ -399,7 +402,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             psanPham.add(deADMIN);
             psanPham.add(changeADMIN);
             psanPham.add(xuatexcel);
-            psanPham.add(report);
+            psanPham.add(chonAnhADMIN);
         }
         if (Login.type == 0) {
             psanPham.add(add);
@@ -723,12 +726,45 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                     accountTabel.setModel(modelTaiKhoan);
                 } catch (Exception ae){
                 }
+                
+                
+        accountTabel.addMouseListener(new MouseAdapter() {
+            public void mouseClicked (MouseEvent e){
+                int j = nhanvienTable.getSelectedRow();
+                if (j>=0){
+                    id_TextField.setText((String)accountTabel.getModel().getValueAt(j, 0));
+                    taikhoan_TextField.setText((String)accountTabel.getModel().getValueAt(j, 1));
+                    matkhau_TextField.setText((String)accountTabel.getModel().getValueAt(j, 2));
+                    type_TextField.setText((String)accountTabel.getModel().getValueAt(j, 3).toString());
+                }
+            }
+        });        
         
         ptaikhoan.setVisible(true);
         return ptaikhoan;
     }
     
-    public JPanel CreatePanel_QuanLiSanPham(){
+    public JPanel CreatePanel_ThongKe(){
+        JPanel psanpham = new JPanel();
+        psanpham.setLayout(null);
+        psanpham.setBounds(0, 0, 1080, 660);
+        JLabel lb = new JLabel(new ImageIcon("./src/Image/baotri.PNG"));
+        lb.setBounds(-100, 20, 1199, 601);
+        psanpham.add(lb);
+        return psanpham;
+    }
+    
+    public JPanel CreatePanel_QuanLiHoaDon(){
+        JPanel psanpham = new JPanel();
+        psanpham.setLayout(null);
+        psanpham.setBounds(0, 0, 1080, 660);
+        JLabel lb = new JLabel(new ImageIcon("./src/Image/baotri.PNG"));
+        lb.setBounds(-100, 20, 1199, 601);
+        psanpham.add(lb);
+        return psanpham;
+    }
+    
+    public JPanel CreatePanel_QuanLiKhachHang(){
         JPanel psanpham = new JPanel();
         psanpham.setLayout(null);
         psanpham.setBounds(0, 0, 1080, 660);
@@ -750,13 +786,9 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         Checkbox x = new Checkbox();
         giaTriDauTXT = new JTextField();
         giaTriCuoiTXT = new JTextField();
-        //JLabel khoangGia = new JLabel("Khoảng Giá");
         
-        x.setBounds(75, 0, 20, 20);
-        //khoangGia.setBounds(20, 0, 100, 20);
         giaTriDauTXT.setBounds(10, 20, 60, 25);
         giaTriCuoiTXT.setBounds(80, 20, 60, 25);     
-        ptimkiem.add(x);
         //ptimkiem.add(khoangGia);
         ptimkiem.add(giaTriCuoiTXT);
         ptimkiem.add(giaTriDauTXT);
@@ -772,18 +804,13 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         
         Border menuTitleBoder = BorderFactory.createTitledBorder("Theo Loại Sản Phẩm");
         ptimkiem.setBorder(menuTitleBoder);
+   
+        loaiSanPhamCBB = new JComboBox(SanPhamBUS.CreateComboBOX());
+        loaiSanPhamCBB.setBounds(5, 20, 140, 30);
+        ptimkiem.add(loaiSanPhamCBB);
+        loaiSanPhamCBB.setActionCommand("combobox");
+        loaiSanPhamCBB.addActionListener(this);
         
-   //     JComboBox loaiSanPhamCBox = new JComboBox(VTCombobox);
-      //  loaiSanPhamCBox.setBounds(5, 20, 145, 30);
-     //   ptimkiem.add(loaiSanPhamCBox);
-        
-        
-//        int j=0;
-//        for(int i=0; i<SanPhamBUS.Arr_products.size();i++){
-//           Arr_cbbox[j] = SanPhamBUS.Arr_products.get(i).getCategory();
-//           j++;
-//            //System.out.println(Arr_cbbox[j]);
-//        }              
         return ptimkiem;
     }
     
@@ -974,22 +1001,20 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         }
                 //event
         if (Login.type == 1) {
+            try {
+                SanPhamBUS.docSanPham();
+            } catch (Exception ex) {
+                Logger.getLogger(HomeUser.class.getName()).log(Level.SEVERE, null, ex);
+            }
             int j = productTable.getSelectedRow();
             if (j>=0){
                 menuTextFieldADMIN[0].setText((String)productTable.getModel().getValueAt(j, 0));
                 menuTextFieldADMIN[1].setText((String)productTable.getModel().getValueAt(j, 1));
                 menuTextFieldADMIN[2].setText((String)productTable.getModel().getValueAt(j, 2).toString());
                 menuTextFieldADMIN[3].setText((String)productTable.getModel().getValueAt(j, 3));
+                menuTextFieldADMIN[4].setText(String.valueOf(SanPhamBUS.Arr_products.get(j).getTrangThai()));
+                menuTextFieldADMIN[5].setText(String.valueOf(SanPhamBUS.Arr_products.get(j).getImg_path()));
             }
-        }
-        if (Login.type == 1) {
-            int j = accountTabel.getSelectedRow();
-                if (j>=0){
-                    id_TextField.setText((String)accountTabel.getModel().getValueAt(j, 0));
-                    taikhoan_TextField.setText((String)accountTabel.getModel().getValueAt(j, 1));
-                    matkhau_TextField.setText((String)accountTabel.getModel().getValueAt(j, 2));
-                    type_TextField.setText((String)accountTabel.getModel().getValueAt(j, 3).toString());
-                }
         }
             
         //-----------------------------------------
@@ -1090,7 +1115,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             if("buttonAdmin_3".equals(e.getActionCommand()))
             {    
                 contentPanel.removeAll();
-                JPanel sanPhamPanel =CreatePanel_QuanLiSanPham();
+                JPanel sanPhamPanel =CreatePanel_QuanLiKhachHang();
                 contentPanel.add(sanPhamPanel);
                 contentPanel.setLayout(null);
                 contentPanel.updateUI();     
@@ -1098,7 +1123,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             if("buttonAdmin_4".equals(e.getActionCommand()))
             {    
                 contentPanel.removeAll();
-                JPanel sanPhamPanel =CreatePanel_QuanLiSanPham();
+                JPanel sanPhamPanel =CreatePanel_QuanLiHoaDon();
                 contentPanel.add(sanPhamPanel);
                 contentPanel.setLayout(null);
                 contentPanel.updateUI();      
@@ -1106,20 +1131,12 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             if("buttonAdmin_5".equals(e.getActionCommand()))
             {    
                 contentPanel.removeAll();
-                JPanel sanPhamPanel =CreatePanel_QuanLiSanPham();
+                JPanel sanPhamPanel =CreatePanel_ThongKe();
                 contentPanel.add(sanPhamPanel);
                 contentPanel.setLayout(null);
                 contentPanel.updateUI();       
             }
             if("buttonAdmin_6".equals(e.getActionCommand()))
-            {    
-                contentPanel.removeAll();
-                JPanel sanPhamPanel =CreatePanel_QuanLiSanPham();
-                contentPanel.add(sanPhamPanel);
-                contentPanel.setLayout(null);
-                contentPanel.updateUI();      
-            }
-            if("buttonAdmin_7".equals(e.getActionCommand()))
             {    
                 System.exit(0);  
             }
@@ -1156,15 +1173,6 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             if("find".equals(e.getActionCommand()))
             {
                 String temp = seachtxt.getText();
-//                SanPhamBUS bus = new SanPhamBUS();
-//                if (SanPhamBUS.Arr_products.size() == 0) {
-//                    try {
-//                        bus.docSanPham();
-//                    } catch (Exception ex) {
-//                        Logger.getLogger(HomeUser.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-                SanPhamBUS.timkiemALL(temp);
                 model.setRowCount(0);
                 for (int i =0; i < SanPhamBUS.timkiemALL(temp).size();i++) {
                     Add_row_SanPham(SanPhamBUS.timkiemALL(temp).get(i));
@@ -1176,10 +1184,10 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 model.setRowCount(0);
                 modelGioHang.setRowCount(0);
                 for (int i =0; i < SanPhamBUS.Arr_products.size();i++) {
+                    if(SanPhamBUS.Arr_products.get(i).getTrangThai() == 1)
                     Add_row_SanPham(SanPhamBUS.Arr_products.get(i));
                 }
                 Arr_GioHang.removeAll(Arr_GioHang);
-                Arr_GioHang = new ArrayList<>();
                 
             }
             if("print".equals(e.getActionCommand()))
@@ -1189,6 +1197,29 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 } catch (Exception ex) {
                     Logger.getLogger(HomeUser.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+            if("combobox".equals(e.getActionCommand())){
+                Vector temp = SanPhamBUS.CreateComboBOX();
+                model.setRowCount(0); 
+                    if(loaiSanPhamCBB.getSelectedItem().toString() == temp.get(0)){
+                        Vector tempLoai = new Vector(SanPhamBUS.timKiemTheoLoai(temp.get(0).toString()));
+                        for (int i =0; i < tempLoai.size();i++) {
+                            Add_row_SanPham((ProductsDTO) tempLoai.get(i));
+                        }
+                    }
+                    if(loaiSanPhamCBB.getSelectedItem().toString() == temp.get(1)){
+                        Vector tempLoai = new Vector(SanPhamBUS.timKiemTheoLoai(temp.get(1).toString()));
+                        for (int i =0; i < tempLoai.size();i++) {
+                            Add_row_SanPham((ProductsDTO) tempLoai.get(i));
+                        }
+                    }
+                    if(loaiSanPhamCBB.getSelectedItem().toString() == temp.get(2)){
+                        Vector tempLoai = new Vector(SanPhamBUS.timKiemTheoLoai(temp.get(2).toString()));
+                        for (int i =0; i < tempLoai.size();i++) {
+                            Add_row_SanPham((ProductsDTO) tempLoai.get(i));
+                        }
+                    }
+                    
             }
             if("exe".equals(e.getActionCommand()))
             {
@@ -1476,31 +1507,100 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                     abc.ExportExcel(input, accountTabel);
             }
             if ("addADMIN".equals(e.getActionCommand())) {
-//            ProductsDTO products =new ProductsDTO();
-//            products.ID_Product=menuTextFieldADMIN[0].getText();
-//            products.Name=menuTextFieldADMIN[1].getText();
-//            products.Pice=Double.valueOf(menuTextFieldADMIN[2].getText());
-//            products.Category=menuTextFieldADMIN[3].getText();
-//            products.amount=Integer.valueOf(menuTextFieldADMIN[4].getText());
-//            arr
-//            Vector header = new Vector();
-//            header.add("mã sinh vien");//tua de cot cua jtable
-//            header.add("họ");
-//            header.add("Tên");
-//            if (model.getRowCount()==0)
-//                        { model=new DefaultTableModel(header,0);} //dữ liệu rỗng
-//            //nạp dữ liệu cho mỗi row
-//            Vector row=new Vector();
-//            row.add(sv.maSV);
-//            row.add(sv.hoTen);
-//            row.add(sv.diaChi);
-//            model.addRow(row); //thêm row dữ liệu vào model
-//            //nạp du lieu cua model vào jtable tblDSSV
-//            tblDSSV.setModel(model);
+                ProductsDTO products =new ProductsDTO();
+                String temp = menuTextFieldADMIN[0].getText();
+                String duongDan = "/Image/";
+                    if(SanPhamBUS.kt_trung_ma(menuTextFieldADMIN[0].getText(), SanPhamBUS.Arr_products)||menuTextFieldADMIN[0].getText().equals("")){
+                       JOptionPane.showMessageDialog(this, "Mã sản phẩm không hợp lệ! Vui lòng nhập lại");
+                       menuTextFieldADMIN[0].setText("");
+                    }else{
+                        products.setID_Product(menuTextFieldADMIN[0].getText());
+                        products.setName(menuTextFieldADMIN[1].getText());
+                        products.setPice(Double.valueOf(menuTextFieldADMIN[2].getText()));
+                        products.setCategory(menuTextFieldADMIN[3].getText());
+                        products.setTrangThai(Integer.valueOf(menuTextFieldADMIN[4].getText()));
+                        products.setImg_path(duongDan+menuTextFieldADMIN[5].getText());
+                        products.setAmount(0);
+                        try {
+                            SanPhamBUS.themSanPham(products);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
+                        for(int j = 0 ; j < menuTextFieldADMIN.length ; j ++){
+                            menuTextFieldADMIN[j].setText("");
+                        }
+                        model.setRowCount(0);
+                            for (ProductsDTO product : SanPhamBUS.Arr_products){
+                               if(product.getTrangThai() == 1)
+                                    Add_row_SanPham(product);
+                            }
+                            productTable.setModel(model);
+                    }           
+
         }
         if ("xoaADMIN".equals(e.getActionCommand())) {
+            ProductsDTO products =new ProductsDTO();
+                Common.trangThai = products;
+                int  i=productTable.getSelectedRow();
+                String duongDan = "/Image/";
+                products.setID_Product(menuTextFieldADMIN[0].getText());
+                products.setName(menuTextFieldADMIN[1].getText());
+                products.setPice(Double.valueOf(menuTextFieldADMIN[2].getText()));
+                products.setCategory(menuTextFieldADMIN[3].getText());
+                products.setImg_path(duongDan+menuTextFieldADMIN[4].getText());
+                products.setTrangThai(0);
+                products.setAmount(0);
+                if (JOptionPane.showConfirmDialog(null, "Xoá sản Phẩm?", "Tiếp Tục",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {      
+                    try {
+                         SanPhamBUS.suaSanPham(i,products);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+                for(int j = 0 ; j < menuTextFieldADMIN.length ; j++){
+                    menuTextFieldADMIN[j].setText("");
+                }
+                model.setRowCount(0);
+                try {
+                    SanPhamBUS.docSanPham();
+                    
+                    for (ProductsDTO product : SanPhamBUS.Arr_products){
+                        if(product.getTrangThai() == 1)
+                            Add_row_SanPham(product);
+                    }
+                    productTable.setModel(model);
+                } catch (Exception ae){
+                }
         }
         if ("suaADMIN".equals(e.getActionCommand())) {
+                ProductsDTO products =new ProductsDTO();
+                int  i=productTable.getSelectedRow();
+                String duongDan = "/Image/";
+                products.setID_Product(menuTextFieldADMIN[0].getText());
+                products.setName(menuTextFieldADMIN[1].getText());
+                products.setPice(Double.valueOf(menuTextFieldADMIN[2].getText()));
+                products.setCategory(menuTextFieldADMIN[3].getText());
+                products.setTrangThai(Integer.valueOf(menuTextFieldADMIN[4].getText()));
+                products.setImg_path(duongDan+menuTextFieldADMIN[5].getText());
+                products.setAmount(0);
+                
+                SanPhamBUS.suaSanPham(i,products);
+                model.setRowCount(0);
+                for(int j = 0 ; j < menuTextFieldADMIN.length ; j++){
+                    menuTextFieldADMIN[j].setText("");
+                }
+                try {
+                    SanPhamBUS.docSanPham();
+                    for (ProductsDTO product : SanPhamBUS.Arr_products){
+                        if(product.getTrangThai() == 1)
+                            Add_row_SanPham(product);
+                    }
+                    productTable.setModel(model);
+                } catch (Exception ae){
+                }
         }
         if ("xuatEXCEL".equals(e.getActionCommand())) {
             ExportExcel ab = new ExportExcel();

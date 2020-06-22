@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/QuanLiCuaHangPizzaV2/doanJava/src/GUI/XemThemKhachHangGUI.java</file>
+            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/QuanLiCuaHangPizzaV2/doanJava/src/GUI/Login.java</file>
+            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/QuanLiCuaHangPizzaV2/doanJava/src/DTO/loaiSanPhamDTO.java</file>
+            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/QuanLiCuaHangPizzaV2/doanJava/src/GUI/HomeUser.java</file>
+            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/QuanLiCuaHangPizzaV2/doanJava/src/BUS/HoaDonBUS.java</file>
+        </group>
     </open-files>
 </project-private>

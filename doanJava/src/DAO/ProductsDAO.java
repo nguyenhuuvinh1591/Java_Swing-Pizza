@@ -34,6 +34,7 @@ public class ProductsDAO {
                 Products.setCategory(rs.getString("Category"));
                 Products.setAmount(rs.getInt("amount"));
                 Products.setImg_path(rs.getString("img_path"));
+                Products.setTrangThai(rs.getInt("TrangThai"));
             
                 Arr_products.add(Products);
           
@@ -52,14 +53,18 @@ public class ProductsDAO {
             qry = qry+"'"+products.getID_Product()+"'";
             qry = qry+","+"'"+products.getName()+"'";
             qry = qry+","+"'"+products.getPice()+"'";
+            qry = qry+","+"'"+products.getAmount()+"'";
             qry = qry+","+"'"+products.getCategory()+"'";
             qry = qry+","+"'"+products.getImg_path()+"'";
+            qry = qry+","+"'"+products.getTrangThai()+"'";
              qry = qry+")";
             connect.getStatement();
             connect.executeQuery(qry);
-            System.out.println(qry);
+            JOptionPane.showMessageDialog(null,"Thêm Thành Công");
             connect.Close();
        } catch (Exception ex) {
+           ex.printStackTrace();
+           JOptionPane.showMessageDialog(null,"Lỗi");
        }       
     }
     public void xoa(String ID_Product){
@@ -76,19 +81,22 @@ public class ProductsDAO {
     }
     public void sua(ProductsDTO products){
         try{
-            String qry="Update sach Set ";
+            String qry="Update product Set ";
             qry = qry+"ID_Product="+"'"+products.getID_Product()+"',";
-            qry = qry+"Name="+"'"+products.getName()+"'";
-            qry = qry+"Price="+"'"+products.getPice()+"'";
-            qry = qry+"Category="+"'"+products.getCategory()+"'";
-            qry = qry+"Img_path="+"'"+products.getImg_path()+"'";
+            qry = qry+"Name="+"'"+products.getName()+"',";
+            qry = qry+"Price="+"'"+products.getPice()+"',";
+            qry = qry+"amount="+"'"+products.getAmount()+"',";
+            qry = qry+"Category="+"'"+products.getCategory()+"',";
+            qry = qry+"img_path="+"'"+products.getImg_path()+"',";
+            qry = qry+"TrangThai="+"'"+products.getTrangThai()+"'";
             connect.getStatement();
             connect.executeUpdate(qry);
-            System.out.println(qry);
+            JOptionPane.showMessageDialog(null,"sửa Thành Công");
             connect.Close();
                     
         }catch (Exception ex){
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Lỗi");
         }
     }
  

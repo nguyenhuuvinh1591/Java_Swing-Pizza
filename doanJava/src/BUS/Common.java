@@ -6,6 +6,7 @@
 package BUS;
 
 import DTO.KhachHangDTO;
+import DTO.ProductsDTO;
 
 /**
  *
@@ -13,4 +14,5 @@ import DTO.KhachHangDTO;
  */
 public class Common {
     public  static  KhachHangDTO khhh;
+    public  static  ProductsDTO trangThai;
 }
