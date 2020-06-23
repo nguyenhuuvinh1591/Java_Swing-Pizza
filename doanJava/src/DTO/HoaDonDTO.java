@@ -5,6 +5,7 @@
  */
 package DTO;
 
+import com.toedter.calendar.JDateChooser;
 import java.sql.Date;
 
 /**
@@ -19,6 +20,7 @@ public class HoaDonDTO {
     public double ThanhTien;
     public String Ngaylap;
     public int TrangThai;
+    
 
     public HoaDonDTO() {
     }

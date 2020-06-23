@@ -187,21 +187,11 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         title.setBounds(80, 10, 300, 30);
         title.setFont(new Font("Arial", 0, 20));
         title.setForeground(Color.black);
-        JLabel logo = new JLabel(new ImageIcon("./src/Image/banhang.png"));
+        JLabel logo = new JLabel(new ImageIcon("./src/Image/logo.jpg"));
         logo.setBounds(-50, 0, 200, 48);
         pHeader.add(logo);
         pHeader.add(title);
 
-////        JLabel logout=new JLabel();
-////        logout.setIcon(new ImageIcon(this.getClass().getResource("/Images/Icon/icons8_exit_30px.png")));
-//        logout.setBounds(width*0, 0, 30, 30);
-//        logout.addMouseListener(new MouseAdapter(){
-//            @Override
-//            public void mousePressed(MouseEvent evt){
-//                //viết code logout
-//            }
-//        });
-//        header.add(logout);
         JLabel minimize = new JLabel(new ImageIcon("./src/Image/minisize.png"), JLabel.LEFT);
         minimize.setBounds(1180, 0, 60, 50);
         minimize.addMouseListener(new MouseAdapter() {
@@ -745,6 +735,16 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
     }
     
     public JPanel CreatePanel_ThongKe(){
+        JPanel pthongke = new JPanel();
+        pthongke.setLayout(null);
+        pthongke.setBounds(0, 0, 1080, 660);
+        JTabbedPane tabbedPane = new JTabbedPane();
+        JPanel panel_1 = CreatePanel_ThongKeTAB1_SP();
+        tabbedPane.addTab("Tab 1", new ImageIcon("/Image/pizamenu.PNG"), panel_1);
+        pthongke.add(tabbedPane);
+        return pthongke;
+    }
+    public JPanel CreatePanel_ThongKeTAB1_SP(){
         JPanel psanpham = new JPanel();
         psanpham.setLayout(null);
         psanpham.setBounds(0, 0, 1080, 660);
@@ -755,6 +755,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
     }
     
     public JPanel CreatePanel_QuanLiHoaDon(){
+        // CODE MINH HERE
         JPanel psanpham = new JPanel();
         psanpham.setLayout(null);
         psanpham.setBounds(0, 0, 1080, 660);
@@ -1131,8 +1132,8 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             if("buttonAdmin_5".equals(e.getActionCommand()))
             {    
                 contentPanel.removeAll();
-                JPanel sanPhamPanel =CreatePanel_ThongKe();
-                contentPanel.add(sanPhamPanel);
+                JPanel thongKePanel =CreatePanel_ThongKe();
+                contentPanel.add(thongKePanel);
                 contentPanel.setLayout(null);
                 contentPanel.updateUI();       
             }

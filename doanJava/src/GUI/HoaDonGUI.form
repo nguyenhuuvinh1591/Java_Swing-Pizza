@@ -190,6 +190,12 @@
       </Properties>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="ngayBanDATE">
+      <Properties>
+        <Property name="date" type="java.util.Date" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="dd/MM/yyyy&#xd;&#xa;" type="code"/>
+        </Property>
+        <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>

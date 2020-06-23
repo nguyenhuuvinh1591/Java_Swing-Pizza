@@ -19,6 +19,8 @@ import static GUI.HomeUser.Arr_GioHang;
 import java.awt.event.WindowEvent;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -39,11 +41,9 @@ public class HoaDonGUI extends javax.swing.JFrame {
     int check = 1;
     public HoaDonGUI() throws Exception {
         initComponents();
-        dodata();
-        
+        dodata();      
         setLocationRelativeTo(null);       
         setVisible(true);
-//        setState(this.ICONIFIED);
     }
 
     /**
@@ -86,6 +86,10 @@ public class HoaDonGUI extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setText("Ngày Bán:");
+
+        ngayBanDATE.setDate(dd/MM/yyyy
+        );
+        ngayBanDATE.setDateFormatString("dd/MM/yyyy");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setText("Tên Khách Hàng:");
@@ -318,6 +322,7 @@ public class HoaDonGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_totalTXTActionPerformed
 
     private void thanhToanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thanhToanButtonActionPerformed
+
         HoaDonBUS bus = new HoaDonBUS();
         try {
             HoaDonDTO hoadon = new HoaDonDTO();
@@ -326,8 +331,9 @@ public class HoaDonGUI extends javax.swing.JFrame {
             hoadon.setID_Khachhang(maKHTXT.getText());
             hoadon.setID_Giamgia(discountTXT.getText());
             hoadon.setThanhTien(Double.valueOf(totalTXT.getText()));
-            hoadon.setNgaylap(ngayBanDATE.getDate().toString());
+            hoadon.setNgaylap(ngayBanDATE.getDate().toString()); 
             hoadon.setTrangThai(1);
+            System.out.println(hoadon.getNgaylap());
             bus.themHoaDon(hoadon); 
             dispose();
         } catch (Exception ex) {
@@ -358,7 +364,6 @@ public class HoaDonGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
     
     public void dodata() throws Exception{
-        
         String header[] = {"STT","Mã Sản Phẩm","Tên Sản Phẩm","Số Lượng","Đơn Giá"};
         DefaultTableModel model = new DefaultTableModel(null, header);
         int temp= 1;
@@ -376,20 +381,6 @@ public class HoaDonGUI extends javax.swing.JFrame {
         CreateTxt();
     }
     
-//    public ArrayList<HoaDonDTO> docHoaDon (){
-//        HoaDonDTO ctHoaDon = new HoaDonDTO();
-//        for(int i = 0 ; i < Arr_HoaDon.size() ; i++){
-//            ctHoaDon.setID_Hoadon(maHDTXT.getText());
-//            ctHoaDon.setID_NhanVien(Login.idhienhanh);
-//            ctHoaDon.setID_Khachhang(tenKHTXT.getText());
-//            ctHoaDon.setID_Giamgia(discountTXT.getText());
-//            ctHoaDon.setThanhTien(Double.valueOf(totalTXT.getText()));
-//            ctHoaDon.setNgaylap(ngayBanDATE.getDate().toString());
-//            Arr_HoaDon.add(ctHoaDon);
-//        }
-//        return Arr_HoaDon;
-//    }
-
     public void CreateTxt () throws SQLException, Exception{
         //------------- ten nv
         AccountBUS bus = new AccountBUS();
